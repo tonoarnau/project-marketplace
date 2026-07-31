@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tono Arnau Labs — Proyectos</title>
+<meta name="description" content="Catálogo de proyectos web construidos con Claude por Tono Arnau: ajedrez, música y cómics interactivos.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bungee&family=Fraunces:ital,wght@0,400;0,600;0,700;1,500;1,600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<!-- Bungee = título/logo poster-style · Fraunces italic = cuerpo editorial
+     Si Google Fonts no carga (offline, bloqueo de red), los fallbacks de abajo
+     ('Arial Black'/Georgia) mantienen el diseño legible sin romperse. -->
+<style>
+  :root{
+    --bg: #1E3A34;
+    --bg-deep: #162B26;
+    --paper: #F2E8CF;
+    --paper-dark: #E7DAB8;
+    --ink: #23241F;
+    --ink-soft: #55554C;
+    --garnet: #8C2F39;
+    --mustard: #D9A441;
+    --slate: #3F5C76;
+    --line: rgba(35,36,31,0.16);
+  }
+
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:
+      radial-gradient(ellipse at top left, rgba(217,164,65,0.10), transparent 55%),
+      url('images/fondo-textura.png');
+    background-size: 900px;
+    background-repeat: repeat;
+    background-color: var(--bg); /* fallback if the texture file is missing */
+    background-blend-mode: normal;
+    color: var(--paper);
+    font-family: 'Fraunces', Georgia, 'Times New Roman', serif;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  a{color:inherit;}
+
+  /* ---------- HEADER ---------- */
+  header{
+    display:flex;
+    align-items:center;
+    gap:20px;
+    padding: 36px clamp(20px,5vw,64px) 28px;
+    border-bottom: 1px solid rgba(242,232,207,0.14);
+  }
+  .stamp{
+    flex:none;
+    width:58px;height:58px;border-radius:50%;
+    background: var(--garnet);
+    color: var(--paper);
+    display:flex;align-items:center;justify-content:center;
+    border:2px dashed rgba(242,232,207,0.55);
+    transform: rotate(-6deg);
+  }
+  .stamp svg{ width:30px; height:30px; }
+  .headline h1{
+    margin:0;
+    font-family: 'Bungee', 'Arial Black', 'Arial Narrow Bold', sans-serif;
+    font-weight:400;
+    font-size: clamp(24px, 3.6vw, 34px);
+    letter-spacing:0.5px;
+    text-transform:uppercase;
+  }
+  .headline h1 span{ color: var(--mustard); }
+  .headline p{
+    margin:4px 0 0;
+    font-family:'Space Mono', monospace;
+    font-size:12.5px;
+    letter-spacing:0.06em;
+    text-transform:uppercase;
+    color: var(--mustard);
+  }
+
+  /* ---------- MAIN ---------- */
+  main{
+    padding: 40px clamp(20px,5vw,64px) 20px;
+    max-width: 1180px;
+    margin: 0 auto;
+  }
+
+  .filters{
+    display:flex;
+    flex-wrap:wrap;
+    gap:10px;
+    margin-bottom:34px;
+  }
+  .filter{
+    font-family:'Space Mono', monospace;
+    font-size:12.5px;
+    letter-spacing:0.04em;
+    text-transform:uppercase;
+    background:transparent;
+    color: var(--paper);
+    border:1px solid rgba(242,232,207,0.35);
+    padding:8px 16px;
+    border-radius: 3px 3px 0 0;
+    cursor:pointer;
+    transition: all .18s ease;
+  }
+  .filter:hover{ border-color: var(--mustard); color: var(--mustard); }
+  .filter.active{
+    background: var(--paper);
+    color: var(--ink);
+    border-color: var(--paper);
+  }
+
+  .grid{
+    display:grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 28px;
+  }
+
+  .card{
+    position:relative;
+    background: var(--paper);
+    color: var(--ink);
+    border-radius: 4px;
+    overflow:hidden;
+    text-decoration:none;
+    display:flex;
+    flex-direction:column;
+    box-shadow: 0 6px 0 rgba(0,0,0,0.18);
+    transition: transform .22s ease, box-shadow .22s ease, rotate .22s ease;
+    transform-origin: bottom center;
+  }
+  .card:nth-child(2n){ rotate: 0.6deg; }
+  .card:nth-child(3n){ rotate: -0.5deg; }
+  .card:hover{
+    transform: translateY(-6px);
+    rotate: 0deg;
+    box-shadow: 0 14px 0 rgba(0,0,0,0.22);
+  }
+  /* perforated die-cut edge */
+  .card::before{
+    content:"";
+    position:absolute;
+    top:0;left:0;right:0;height:10px;
+    background-image: radial-gradient(circle, var(--bg) 3px, transparent 3.2px);
+    background-size: 16px 16px;
+    background-position: 0 -8px;
+    z-index:2;
+  }
+
+  .card-num{
+    position:absolute;
+    top:14px; right:12px;
+    font-family:'Space Mono', monospace;
+    font-size:11px;
+    background: var(--ink);
+    color: var(--paper);
+    padding:3px 7px;
+    border-radius:2px;
+    z-index:3;
+    letter-spacing:0.05em;
+  }
+
+  .card-media{
+    aspect-ratio: 4 / 3;
+    background: linear-gradient(135deg, var(--paper-dark), var(--paper));
+    display:flex;align-items:center;justify-content:center;
+    position:relative;
+    overflow:hidden;
+  }
+  .card-media img{
+    width:100%;height:100%;object-fit:cover;display:block;
+  }
+  .card-media .fallback{
+    font-family:'Fraunces', serif;
+    font-style:italic;
+    color: var(--ink-soft);
+    font-size:14px;
+    text-align:center;
+    padding:0 20px;
+  }
+
+  .card-tag{
+    position:absolute;
+    bottom:10px; left:10px;
+    font-family:'Space Mono', monospace;
+    font-size:10.5px;
+    text-transform:uppercase;
+    letter-spacing:0.05em;
+    padding:4px 9px;
+    border-radius:2px;
+    color: var(--paper);
+    z-index:3;
+  }
+  .tag-ajedrez{ background: var(--garnet); }
+  .tag-musica{ background: var(--slate); }
+  .tag-comic{ background: #8A5A2E; }
+
+  .card-body{
+    padding: 18px 18px 20px;
+    display:flex;
+    flex-direction:column;
+    gap:8px;
+    flex:1;
+    border-top: 1px solid var(--line);
+  }
+  .card-body h3{
+    margin:0;
+    font-family: 'Bungee', 'Arial Black', sans-serif;
+    font-weight:400;
+    font-size:16px;
+    text-transform:uppercase;
+    letter-spacing:0.2px;
+    line-height:1.25;
+  }
+  .card-body p{
+    margin:0;
+    font-family:'Fraunces', Georgia, serif;
+    font-style:italic;
+    font-size:15px;
+    line-height:1.45;
+    color: var(--ink-soft);
+    flex:1;
+  }
+  .card-cta{
+    margin-top:6px;
+    font-family:'Space Mono', monospace;
+    font-size:12px;
+    text-transform:uppercase;
+    letter-spacing:0.04em;
+    display:flex;
+    align-items:center;
+    gap:6px;
+  }
+  .card-cta .arrow{ transition: transform .18s ease; }
+  .card:hover .card-cta .arrow{ transform: translateX(4px); }
+
+  /* empty / coming soon slot */
+  .card.empty{
+    background: transparent;
+    border: 2px dashed rgba(242,232,207,0.3);
+    box-shadow:none;
+    align-items:center;
+    justify-content:center;
+    min-height: 220px;
+    color: rgba(242,232,207,0.55);
+    cursor:default;
+  }
+  .card.empty::before{ display:none; }
+  .card.empty:hover{ transform:none; box-shadow:none; }
+  .card.empty span{
+    font-family:'Space Mono', monospace;
+    font-size:12px;
+    text-transform:uppercase;
+    letter-spacing:0.06em;
+  }
+
+  /* ---------- FOOTER ---------- */
+  footer{
+    margin-top: 50px;
+    padding: 26px clamp(20px,5vw,64px) 34px;
+    border-top: 1px solid rgba(242,232,207,0.14);
+    display:flex;
+    justify-content:space-between;
+    flex-wrap:wrap;
+    gap:8px;
+    font-family:'Space Mono', monospace;
+    font-size:12px;
+    color: rgba(242,232,207,0.6);
+    text-transform:uppercase;
+    letter-spacing:0.04em;
+  }
+
+  @media (max-width:480px){
+    header{padding:28px 18px 22px;}
+    main{padding:30px 18px 10px;}
+    footer{flex-direction:column;}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="stamp" aria-hidden="true">
+    <!-- icono de matraz/laboratorio, hecho en SVG puro: sin dependencias externas -->
+    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M9 2H15" stroke="#F2E8CF" stroke-width="1.8" stroke-linecap="round"/>
+      <path d="M10 3V9.5L4.5 19.2C3.9 20.3 4.7 21.6 6 21.6H18C19.3 21.6 20.1 20.3 19.5 19.2L14 9.5V3" stroke="#F2E8CF" stroke-width="1.8" stroke-linejoin="round"/>
+      <path d="M7 16H17" stroke="#D9A441" stroke-width="1.8" stroke-linecap="round"/>
+      <circle cx="10.5" cy="19" r="0.9" fill="#D9A441"/>
+      <circle cx="14" cy="18.3" r="0.6" fill="#F2E8CF"/>
+    </svg>
+  </div>
+  <div class="headline">
+    <h1>Tono Arnau <span>Labs</span></h1>
+    <p>Ideas construidas con Claude, una a una</p>
+  </div>
+</header>
+
+<main>
+  <div class="filters" id="filters">
+    <button class="filter active" data-filter="todos">Todos</button>
+    <button class="filter" data-filter="ajedrez">Ajedrez</button>
+    <button class="filter" data-filter="musica">Música</button>
+    <button class="filter" data-filter="comic">Cómic</button>
+  </div>
+
+  <div class="grid" id="grid"></div>
+</main>
+
+<footer>
+  <span id="fecha"></span>
+  <span>Built with Claude &amp; Tono Arnau</span>
+</footer>
+
+<script>
+  const projects = [
+    {
+      num: "01",
+      cat: "ajedrez",
+      tagLabel: "Ajedrez",
+      tagClass: "tag-ajedrez",
+      title: "Legends of Chess",
+      desc: "Partidas legendarias, aperturas con truco y un glosario táctico para aprender jugada a jugada.",
+      url: "https://tonoarnau.github.io/legends-of-chess/",
+      img: "images/legends-of-chess.png"
+    },
+    {
+      num: "02",
+      cat: "musica",
+      tagLabel: "Música",
+      tagClass: "tag-musica",
+      title: "Fretlastico",
+      desc: "Mástil interactivo, teoría de acordes y escalas, caja de ritmos y entrenamiento auditivo para guitarra y bajo.",
+      url: "https://tonoarnau.github.io/fretlastico/",
+      img: "images/fretlastico.png"
+    },
+    {
+      num: "03",
+      cat: "comic",
+      tagLabel: "Cómic",
+      tagClass: "tag-comic",
+      title: "Hierro y Cielo",
+      desc: "La historia de los rascacielos, contada a golpe de remache y acero.",
+      url: "https://tonoarnau.github.io/don-hierro-comic/",
+      img: "images/hierro-y-cielo.png"
+    },
+    {
+      num: "04",
+      cat: "comic",
+      tagLabel: "Cómic",
+      tagClass: "tag-comic",
+      title: "La Vall d'Uixó",
+      desc: "Dos mil años de historia de un pueblo, contados en viñetas.",
+      url: "https://tonoarnau.github.io/vallduixo-comic/",
+      img: "images/vallduixo.png"
+    }
+  ];
+
+  const grid = document.getElementById('grid');
+
+  function render(filter){
+    grid.innerHTML = "";
+    const visible = filter === "todos" ? projects : projects.filter(p => p.cat === filter);
+
+    visible.forEach(p => {
+      const card = document.createElement('a');
+      card.href = p.url;
+      card.target = "_blank";
+      card.rel = "noopener";
+      card.className = "card";
+      card.innerHTML = `
+        <span class="card-num">Nº ${p.num}</span>
+        <div class="card-media">
+          <span class="fallback">${p.title}</span>
+          <img src="${p.img}" alt="${p.title}" loading="lazy"
+               onload="this.previousElementSibling.style.display='none'"
+               onerror="this.style.display='none'">
+          <span class="card-tag ${p.tagClass}">${p.tagLabel}</span>
+        </div>
+        <div class="card-body">
+          <h3>${p.title}</h3>
+          <p>${p.desc}</p>
+          <div class="card-cta">Abrir proyecto <span class="arrow">→</span></div>
+        </div>
+      `;
+      grid.appendChild(card);
+    });
+
+    // empty "coming soon" slots — only shown in "todos"
+    if(filter === "todos"){
+      for(let i=0; i<2; i++){
+        const empty = document.createElement('div');
+        empty.className = "card empty";
+        empty.innerHTML = `<span>Próximamente</span>`;
+        grid.appendChild(empty);
+      }
+    }
+  }
+
+  document.getElementById('filters').addEventListener('click', (e) => {
+    if(!e.target.classList.contains('filter')) return;
+    document.querySelectorAll('.filter').forEach(b => b.classList.remove('active'));
+    e.target.classList.add('active');
+    render(e.target.dataset.filter);
+  });
+
+  render('todos');
+
+  // dynamic footer date
+  const fecha = new Date().toLocaleDateString('es-ES', {
+    weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'
+  });
+  document.getElementById('fecha').textContent = fecha;
+</script>
+
+</body>
+</html>
