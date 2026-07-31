@@ -7,13 +7,13 @@
 <meta name="description" content="Catálogo de proyectos web construidos con Claude por Tono Arnau: ajedrez, música y cómics interactivos.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Bungee&family=Fraunces:ital,wght@0,400;0,600;0,700;1,500;1,600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
-<!-- Bungee = título/logo poster-style · Fraunces italic = cuerpo editorial
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Fraunces:ital,wght@0,400;0,600;0,700;1,500;1,600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<!-- Anton = título/badges condensed impact-style · Fraunces italic = cuerpo editorial
      Si Google Fonts no carga (offline, bloqueo de red), los fallbacks de abajo
      ('Arial Black'/Georgia) mantienen el diseño legible sin romperse. -->
 <style>
   :root{
-    --bg: #05060B;
+    --bg: #020204;
     --paper: #F2E8CF;
     --paper-dark: #E7DAB8;
     --ink: #23241F;
@@ -31,10 +31,10 @@
   body{
     margin:0;
     background:
-      radial-gradient(1200px circle at 12% -10%, rgba(124,92,255,0.35), transparent 55%),
-      radial-gradient(1000px circle at 92% 15%, rgba(63,227,214,0.20), transparent 50%),
-      radial-gradient(900px circle at 50% 100%, rgba(140,47,57,0.16), transparent 55%),
-      linear-gradient(180deg, #07081A 0%, #0B0E22 45%, #04050B 100%);
+      radial-gradient(1000px circle at 10% -10%, rgba(124,92,255,0.16), transparent 50%),
+      radial-gradient(900px circle at 95% 10%, rgba(63,227,214,0.14), transparent 48%),
+      radial-gradient(800px circle at 50% 105%, rgba(140,47,57,0.10), transparent 55%),
+      linear-gradient(180deg, #030308 0%, #050508 45%, #020203 100%);
     background-attachment: fixed;
     background-color: var(--bg); /* fallback if gradients fail to render */
     color: var(--paper);
@@ -64,9 +64,9 @@
   .stamp svg{ width:30px; height:30px; }
   .headline h1{
     margin:0;
-    font-family: 'Bungee', 'Arial Black', 'Arial Narrow Bold', sans-serif;
+    font-family: 'Anton', 'Arial Narrow Bold', 'Arial Black', sans-serif;
     font-weight:400;
-    font-size: clamp(24px, 3.6vw, 34px);
+    font-size: clamp(30px, 4.6vw, 44px);
     letter-spacing:0.5px;
     text-transform:uppercase;
   }
@@ -99,14 +99,14 @@
     margin-bottom:34px;
   }
   .filter{
-    font-family:'Space Mono', monospace;
-    font-size:12.5px;
-    letter-spacing:0.04em;
+    font-family: 'Anton', 'Arial Narrow Bold', sans-serif;
+    font-size:14px;
+    letter-spacing:0.03em;
     text-transform:uppercase;
     background:transparent;
     color: var(--paper);
     border:1px solid rgba(242,232,207,0.35);
-    padding:8px 16px;
+    padding:9px 18px;
     border-radius: 3px 3px 0 0;
     cursor:pointer;
     transition: all .18s ease;
@@ -190,11 +190,11 @@
   .card-tag{
     position:absolute;
     bottom:10px; left:10px;
-    font-family:'Space Mono', monospace;
-    font-size:10.5px;
+    font-family: 'Anton', 'Arial Narrow Bold', sans-serif;
+    font-size:14px;
     text-transform:uppercase;
-    letter-spacing:0.05em;
-    padding:4px 9px;
+    letter-spacing:0.04em;
+    padding:4px 10px;
     border-radius:2px;
     color: var(--paper);
     z-index:3;
@@ -213,12 +213,12 @@
   }
   .card-body h3{
     margin:0;
-    font-family: 'Bungee', 'Arial Black', sans-serif;
+    font-family: 'Anton', 'Arial Narrow Bold', sans-serif;
     font-weight:400;
-    font-size:16px;
+    font-size:22px;
     text-transform:uppercase;
-    letter-spacing:0.2px;
-    line-height:1.25;
+    letter-spacing:0.3px;
+    line-height:1.15;
   }
   .card-body p{
     margin:0;
