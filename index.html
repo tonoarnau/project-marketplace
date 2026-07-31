@@ -13,8 +13,7 @@
      ('Arial Black'/Georgia) mantienen el diseño legible sin romperse. -->
 <style>
   :root{
-    --bg: #1E3A34;
-    --bg-deep: #162B26;
+    --bg: #05060B;
     --paper: #F2E8CF;
     --paper-dark: #E7DAB8;
     --ink: #23241F;
@@ -22,6 +21,8 @@
     --garnet: #8C2F39;
     --mustard: #D9A441;
     --slate: #3F5C76;
+    --neon-violet: #7C5CFF;
+    --neon-cyan: #3FE3D6;
     --line: rgba(35,36,31,0.16);
   }
 
@@ -30,12 +31,12 @@
   body{
     margin:0;
     background:
-      radial-gradient(ellipse at top left, rgba(217,164,65,0.10), transparent 55%),
-      url('fondo-textura.png');
-    background-size: 900px;
-    background-repeat: repeat;
-    background-color: var(--bg); /* fallback if the texture file is missing */
-    background-blend-mode: normal;
+      radial-gradient(1200px circle at 12% -10%, rgba(124,92,255,0.35), transparent 55%),
+      radial-gradient(1000px circle at 92% 15%, rgba(63,227,214,0.20), transparent 50%),
+      radial-gradient(900px circle at 50% 100%, rgba(140,47,57,0.16), transparent 55%),
+      linear-gradient(180deg, #07081A 0%, #0B0E22 45%, #04050B 100%);
+    background-attachment: fixed;
+    background-color: var(--bg); /* fallback if gradients fail to render */
     color: var(--paper);
     font-family: 'Fraunces', Georgia, 'Times New Roman', serif;
     -webkit-font-smoothing:antialiased;
@@ -69,14 +70,19 @@
     letter-spacing:0.5px;
     text-transform:uppercase;
   }
-  .headline h1 span{ color: var(--mustard); }
+  .headline h1 span{
+    background: linear-gradient(90deg, var(--neon-violet), var(--neon-cyan));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
   .headline p{
     margin:4px 0 0;
     font-family:'Space Mono', monospace;
     font-size:12.5px;
     letter-spacing:0.06em;
     text-transform:uppercase;
-    color: var(--mustard);
+    color: var(--neon-cyan);
   }
 
   /* ---------- MAIN ---------- */
@@ -105,7 +111,7 @@
     cursor:pointer;
     transition: all .18s ease;
   }
-  .filter:hover{ border-color: var(--mustard); color: var(--mustard); }
+  .filter:hover{ border-color: var(--neon-violet); color: var(--neon-cyan); }
   .filter.active{
     background: var(--paper);
     color: var(--ink);
